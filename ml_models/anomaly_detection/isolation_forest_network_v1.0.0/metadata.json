@@ -2,7 +2,7 @@
   "model_name": "isolation_forest_network",
   "version": "1.0.0",
   "model_type": "isolation_forest",
-  "training_date": "2026-01-12T13:33:52.030327+00:00",
+  "training_date": "2026-01-12T14:22:07.539949+00:00",
   "description": "Isolation Forest for network anomaly detection",
   "hyperparameters": {
     "contamination": 0.05,

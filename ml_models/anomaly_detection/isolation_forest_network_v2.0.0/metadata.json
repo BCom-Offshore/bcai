@@ -1,9 +1,9 @@
 {
-  "model_name": "isolation_forest_site",
-  "version": "1.0.0",
+  "model_name": "isolation_forest_network",
+  "version": "2.0.0",
   "model_type": "isolation_forest",
-  "training_date": "2026-01-12T14:22:08.220998+00:00",
-  "description": "Isolation Forest for site anomaly detection",
+  "training_date": "2026-01-12T14:21:38.193610+00:00",
+  "description": "Isolation Forest for network anomaly detection",
   "hyperparameters": {
     "contamination": 0.05,
     "n_estimators": 100,
@@ -12,13 +12,16 @@
       "availability",
       "ib_degradation",
       "ob_degradation",
+      "ib_instability",
+      "ob_instability",
       "performance",
+      "congestion",
       "latency"
     ]
   },
   "metrics": {
     "samples_trained": 7768,
-    "features": 5
+    "features": 8
   },
-  "checksum": "7665a918cae3a553c05f86ecb1be3601"
+  "checksum": "cc4350fbd2b71aa2dc24ab2c0d4ace87"
 }

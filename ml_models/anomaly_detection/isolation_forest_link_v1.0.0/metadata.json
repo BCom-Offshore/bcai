@@ -2,7 +2,7 @@
   "model_name": "isolation_forest_link",
   "version": "1.0.0",
   "model_type": "isolation_forest",
-  "training_date": "2026-01-12T13:33:53.647861+00:00",
+  "training_date": "2026-01-12T14:22:08.915617+00:00",
   "description": "Isolation Forest for link anomaly detection",
   "hyperparameters": {
     "contamination": 0.05,

@@ -1,0 +1,25 @@
+{
+  "model_name": "isolation_forest_link",
+  "version": "1.0.0",
+  "model_type": "isolation_forest",
+  "training_date": "2026-01-12T13:33:53.647861+00:00",
+  "description": "Isolation Forest for link anomaly detection",
+  "hyperparameters": {
+    "contamination": 0.05,
+    "n_estimators": 100,
+    "random_state": 42,
+    "features": [
+      "ib_degradation",
+      "ob_degradation",
+      "ib_instability",
+      "ob_instability",
+      "latency",
+      "congestion"
+    ]
+  },
+  "metrics": {
+    "samples_trained": 7768,
+    "features": 6
+  },
+  "checksum": "79169bacadeaacaa937855eaef80231b"
+}

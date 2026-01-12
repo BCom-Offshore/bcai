@@ -1,0 +1,24 @@
+{
+  "model_name": "isolation_forest_site",
+  "version": "1.0.0",
+  "model_type": "isolation_forest",
+  "training_date": "2026-01-12T13:33:52.827644+00:00",
+  "description": "Isolation Forest for site anomaly detection",
+  "hyperparameters": {
+    "contamination": 0.05,
+    "n_estimators": 100,
+    "random_state": 42,
+    "features": [
+      "availability",
+      "ib_degradation",
+      "ob_degradation",
+      "performance",
+      "latency"
+    ]
+  },
+  "metrics": {
+    "samples_trained": 7768,
+    "features": 5
+  },
+  "checksum": "7665a918cae3a553c05f86ecb1be3601"
+}

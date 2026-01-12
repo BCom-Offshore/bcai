@@ -1,0 +1,27 @@
+{
+  "model_name": "isolation_forest_network",
+  "version": "1.0.0",
+  "model_type": "isolation_forest",
+  "training_date": "2026-01-12T13:33:52.030327+00:00",
+  "description": "Isolation Forest for network anomaly detection",
+  "hyperparameters": {
+    "contamination": 0.05,
+    "n_estimators": 100,
+    "random_state": 42,
+    "features": [
+      "availability",
+      "ib_degradation",
+      "ob_degradation",
+      "ib_instability",
+      "ob_instability",
+      "performance",
+      "congestion",
+      "latency"
+    ]
+  },
+  "metrics": {
+    "samples_trained": 7768,
+    "features": 8
+  },
+  "checksum": "cc4350fbd2b71aa2dc24ab2c0d4ace87"
+}

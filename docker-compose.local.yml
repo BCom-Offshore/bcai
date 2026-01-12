@@ -1,0 +1,51 @@
+# Docker Compose Configuration - Local Development WITHOUT PostgreSQL
+# Use this if you're running PostgreSQL locally instead of in Docker
+#
+# This configuration only runs the API service and assumes PostgreSQL
+# is running on your local machine (localhost:5432)
+#
+# Usage:
+#   docker-compose -f docker-compose.local.yml up
+#
+# OR keep using docker-compose.yml with the full PostgreSQL service
+
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bcom-ai-api
+    ports:
+      - "8010:8010"
+    environment:
+      - DATABASE_URL=postgresql+psycopg://postgres:P@ssw0rd@host.docker.internal:5432/bcai
+      # ^^^ Use host.docker.internal on Windows to connect to local PostgreSQL
+      # On macOS/Linux, use host.docker.internal as well
+      # On Linux with Docker, use 127.0.0.1 instead
+      - DEBUG=False
+      - PROJECT_NAME=BCom AI Services API
+      - API_V1_PREFIX=/api/v1
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key}
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+      - ALLOWED_ORIGINS=http://localhost:3010,http://localhost:8010,https://yourdomain.com
+    depends_on:
+      - healthy-check  # Optional: ensure local PostgreSQL is reachable
+    networks:
+      - bcom-network
+    volumes:
+      - ./app:/app/app  # Hot reload for development
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8010 --reload
+
+  # Optional: Health check service to ensure PostgreSQL is accessible
+  healthy-check:
+    image: busybox:latest
+    command: sh -c "echo 'Ensure PostgreSQL is running locally on localhost:5432'"
+    networks:
+      - bcom-network
+
+networks:
+  bcom-network:
+    driver: bridge

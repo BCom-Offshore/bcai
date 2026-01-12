@@ -130,13 +130,6 @@ if success:
 - `train_link_anomaly_detector()` - Added metrics saving (10 lines)
 
 ## Test Results
-
-### Before Fix
-```
-❌ model_metrics table: Empty
-```
-
-### After Fix
 Running: `python scripts/train_models.py --all`
 
 Output logs:

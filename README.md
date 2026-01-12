@@ -994,6 +994,89 @@ anomaly_scores = network_model.score_samples(scaled_features)
 - **TTL**: Configurable, default 1 hour
 - **Benefits**: Reduced disk I/O, faster inference
 
+### Model Training Metrics & Tracking
+
+#### Automatic Metrics Logging
+
+When you train models using the training script, metrics are automatically saved to the `model_metrics` database table for tracking and auditing:
+
+```bash
+# Train all models and save metrics
+python scripts/train_models.py --all
+
+# Train specific model
+python scripts/train_models.py --network --version 2.0.0
+python scripts/train_models.py --site
+python scripts/train_models.py --link
+```
+
+#### What Gets Recorded
+
+Each training run creates metrics records with:
+
+| Field | Description | Example |
+|-------|-------------|---------|
+| `model_name` | Model identifier | `isolation_forest_network` |
+| `model_version` | Version tag | `1.0.0` |
+| `metric_name` | Metric type | `anomaly_detection_rate` |
+| `metric_value` | Normalized value (0-1) | `0.0501` |
+| `training_date` | Training timestamp | `2026-01-12 15:33:52` |
+| `test_set_size` | Samples used in training | `7768` |
+| `false_positives` | Anomalies detected | `389` |
+| `model_metadata` | JSON metadata | `{"features": [...], "feature_count": 8, ...}` |
+
+#### Implementation Details
+
+The training script includes:
+
+1. **New `save_training_metrics()` Method**
+   - Calculates anomaly detection rate
+   - Computes confidence metrics
+   - Stores feature names and hyperparameters
+   - Saves to `model_metrics` table with error handling
+
+2. **Integrated into Training Pipeline**
+   - Network model training → saves metrics
+   - Site model training → saves metrics
+   - Link model training → saves metrics
+   - Automatic on every training run
+
+3. **Database Schema**
+   - Uses existing `model_metrics` table in PostgreSQL
+   - Supports querying by model name, version, or date
+   - Enables audit trails and model comparison
+
+#### Querying Training Metrics
+
+```python
+from app.core.database import SessionLocal
+from app.models.bcom_models import ModelMetrics
+
+session = SessionLocal()
+
+# Get metrics for specific model
+network_metrics = session.query(ModelMetrics).filter(
+    ModelMetrics.model_name == "isolation_forest_network"
+).all()
+
+# Get latest metrics
+latest = session.query(ModelMetrics).order_by(
+    ModelMetrics.created_at.desc()
+).limit(3).all()
+
+for m in latest:
+    print(f"{m.model_name} v{m.model_version}: {m.metric_name}={m.metric_value:.4f}")
+```
+
+#### Example Output
+
+```
+Total metrics: 3
+isolation_forest_network v1.0.0: anomaly_detection_rate=0.0501
+isolation_forest_site v1.0.0: anomaly_detection_rate=0.0501
+isolation_forest_link v1.0.0: anomaly_detection_rate=0.0501
+```
+
 ---
 
 ## 🚀 Deployment Phases
